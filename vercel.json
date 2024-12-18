@@ -7,9 +7,52 @@
     ],
     "routes": [
       {
-        "src": "/(.*)",
-        "dest": "/public/$1"
+        "src": "/",
+        "dest": "/public/HTML/index.html"
+      },
+
+      {
+        "src": "/about",
+        "dest": "/public/HTML/about.html"
+      },
+
+      {
+        "src": "/whyWP",
+        "dest": "/public/HTML/whywp.html"
+      },
+
+      {
+        "src": "/contact",
+        "dest": "/public/HTML/contact.html"
+      },
+      
+      {
+        "src": "/login",
+        "dest": "/public/HTML/login.html"
+      },
+
+      {
+        "src": "/notfound",
+        "dest": "/public/HTML/notfound.html"
+      },
+    
+    {
+        "src": "/styles/(.*)",
+        "dest": "/public/styles/$1"
+      },
+  
+     
+      {
+        "src": "/images/(.*)",
+        "dest": "/public/images/$1"
+      },
+  
+
+      {
+        "src": "/scripts/(.*)",
+        "dest": "/public/scripts/$1"
       }
+
     ]
   }
   
