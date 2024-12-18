@@ -7,40 +7,9 @@
     ],
     "routes": [
       {
-        "src": "/",
-        "dest": "/public/HTML/index.html"
-      },
-
-      {
-        "src": "/about",
-        "dest": "/public/HTML/about.html"
-      },
-
-      {
-        "src": "/whywp",
-        "dest": "/public/HTML/whywp.html"
-      },
-
-      {
-        "src": "/contact",
-        "dest": "/public/HTML/contact.html"
-      },
-      
-      {
-        "src": "/login",
-        "dest": "/public/HTML/login.html"
-      },
-
-      {
-        "src": "/notfound",
-        "dest": "/public/HTML/notfound.html"
-      },
-
-      {
-        "src": "/styles/styles.css",
-        "dest": "/public/styles/styles.css"
+        "src": "/(.*)",
+        "dest": "/public/$1"
       }
-
     ]
   }
   
