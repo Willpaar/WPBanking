@@ -8,6 +8,7 @@
     "scripts": {
       "dev": "vercel dev",
       "start": "node api/index.js"
-    }
+    },
+    "type": "module"
   }
   

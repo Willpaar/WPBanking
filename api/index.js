@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   const { url, method } = req;
 
   const serveHtml = (filePath) => {
@@ -30,4 +30,4 @@ export default function handler(req, res) {
   } else {
     res.status(405).send('Method Not Allowed');
   }
-}
+};
