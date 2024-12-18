@@ -62,8 +62,8 @@ const getContentType = (ext) => {
 };
 
 // Home page route
-const homeScene = (res) => {
-  const filePath = path.join(__dirname, './HTML/home.html');
+const indexScene = (res) => {
+  const filePath = path.join(__dirname, './HTML/index.html');
   serveHtml(res, filePath);
 };
 
@@ -100,7 +100,7 @@ const notFoundScene = (res) => {
 
 const server = createServer((req, res) => {
   if (req.url === '/' && req.method === 'GET') {
-    homeScene(res);
+    indexScene(res);
   } else if(req.url === '/about' && req.method === 'GET'){
     aboutScene(res);
   } else if(req.url === '/whyWP' && req.method === 'GET'){
