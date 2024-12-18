@@ -7,13 +7,10 @@
     ],
     "routes": [
       {
-        "src": "/HTML/(.*)",
+        "src": "/",
         "dest": "/public/HTML/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/public/$1"
       }
+
     ]
   }
   
