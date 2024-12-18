@@ -30,7 +30,7 @@ module.exports = (req, res) => {
   if (method === 'GET') {
     const filePath = routes[url] || routes['404'];
     // Serve HTML from the appropriate route
-    serveHtml(path.join(process.cwd(), filePath));
+    serveHtml(path.join(__dirname, filePath)); // Adjust the path to be relative to the current directory
   } else {
     res.status(405).send('Method Not Allowed');
   }
