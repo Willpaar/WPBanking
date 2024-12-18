@@ -6,31 +6,35 @@
       }
     ],
     "routes": [
-    {
-      "src": "/",
-      "dest": "/HTML/index.html"
-    },
-    {
-      "src": "/about",
-      "dest": "/HTML/about.html"
-    },
-    {
-      "src": "/whywp",
-      "dest": "/HTML/whywp.html"
-    },
-    {
-      "src": "/contact",
-      "dest": "/HTML/contact.html"
-    },
-    {
-      "src": "/login",
-      "dest": "/HTML/login.html"
-    },
-    
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    },
+      {
+        "src": "/",
+        "dest": "/public/HTML/index.html"
+      },
+
+      {
+        "src": "/about",
+        "dest": "/public/HTML/about.html"
+      },
+
+      {
+        "src": "/whywp",
+        "dest": "/public/HTML/whywp.html"
+      },
+
+      {
+        "src": "/contact",
+        "dest": "/public/HTML/contact.html"
+      },
+      
+      {
+        "src": "/login",
+        "dest": "/public/HTML/login.html"
+      },
+
+      {
+        "src": "/notfound",
+        "dest": "/public/HTML/notfound.html"
+      },
     
     {
         "src": "/styles/(.*)",
