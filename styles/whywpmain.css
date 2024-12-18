@@ -1,0 +1,93 @@
+/* General body styling */
+body {
+    background-color: #199fdd; /* Light blue background */
+    font-family: 'Playfair Display', sans-serif; /* Consistent font */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+
+
+.main_row {
+    display: flex; /* Enable Flexbox layout */
+    justify-content: space-between; /* Distribute space between containers */
+    align-items: stretch; /* Stretch containers to the same height */
+    flex-wrap: nowrap; /* Ensure containers stay side by side */
+    gap: 2vw;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    z-index: 2; /* Ensure it is above .main_img_container */
+    position: relative; /* Establishes positioning context */
+}
+
+.main_container {
+    /* Flex item styling for containers */
+    flex: 1; /* Allow containers to take equal space */
+    width: 40%;
+    background-color: #ffffff;
+    border: 2px solid black;
+    border-radius: 80px;
+    padding: 50px; /* Default padding inside each container */
+    box-shadow: inset 0 0 200px #199fdd; /* Adds inner shadow */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically inside */
+    justify-content: flex-start; /* Aligns content at the top without extra space */
+    font-size: 2em;
+    margin-top: 10px;
+    margin: 3%;
+    position: relative; /* Establishes positioning context */
+}
+
+
+.image_container {
+    width: 21%; /* Adjust container width */
+    position: relative; /* Allows positioning context for the text */
+    margin: 3%;
+
+}
+
+#clipboard {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Maintain the aspect ratio */
+    display: block; /* Remove extra space below the image */
+}
+
+.image_text_container {
+    position: absolute; /* Place text relative to the container */
+    top: 18%; /* Adjust vertical position */
+    left: 10%; /* Adjust horizontal position */
+    width: 100%;
+}
+
+.image_text {
+    font-family: "Italianno", cursive;
+    color: black; /* Text color */
+    font-size: 2vw; /* Font size is 5% of the viewport width */
+    list-style-type: disc; /* Bullet points */
+    padding-left: 20px; /* Add space to the left for bullets */
+}
+
+.image_text li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+
+.image_text_container h2{
+    margin: 5%;
+    font-size: 1.2vw; /* Font size is 5% of the viewport width */
+
+}
+
+
+/* Image container */
+.main_img_container {
+    z-index: 1; /* Ensures the shadow appears over the image */
+    position: relative; /* Keep image inside the container */
+
+}
+
+
+#main_img {
+    width: 100%;
+    height: 100%;
+}

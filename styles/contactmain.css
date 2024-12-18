@@ -1,0 +1,19 @@
+body {
+    background-color: #199fdd; /* Light blue background */
+    font-family: 'Playfair Display', sans-serif; /* Consistent font */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.main {
+    padding: 5%;
+    margin-bottom: 25%;
+}
+
+.text_container { /* Corrected the class name to match HTML */
+    color: white; /* Ensure the text color is set */
+    text-align: center; /* Center the text horizontally */
+    font-size: 1.5em; /* Adjust font size as needed */
+    margin: 0; /* Optional, to remove any default margin around the heading */
+}

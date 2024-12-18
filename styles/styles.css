@@ -1,0 +1,301 @@
+/*Styles.css holds the info for the navbar and 
+dashboard that are shared amongst many webpages*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  
+}
+
+/* Ensure body takes up full height and flex layout */
+body {
+  font-family: 'Playfair Display', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the page takes the full height of the viewport */
+  margin: 0;
+}
+
+.navbar {
+  background: white;
+  height: 80px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5); /* Horizontal offset: 0, Vertical offset: 5px */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar_container {
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  height: 80px;
+  width: 100%;
+  margin-left: 20px;
+  z-index: 999;
+}
+
+.navbar_logo_image {
+  width: 40px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between the logo and the text */
+  margin-top: 17px;
+}
+
+#navbar_logo {
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(to bottom, #f5f5f5 0%, #4285f4 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  align-items: center;
+  
+}
+
+#navbar_logo:hover {
+  background: linear-gradient(to bottom, #93a3e9, #321df1);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar_menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-align: center;
+  justify-content: flex-start; /* Align navbar items to the left */
+  gap: 1rem; /* Add spacing between menu items */
+}
+
+.navbar_links {
+  color: #4285f4;
+  display: center; /* Prevents unnecessary wrapping */
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  height: 100%;
+  text-decoration: none;
+  text-align: center; /* Keeps text centered */
+  white-space: nowrap; /* Prevents text from wrapping */
+  margin: 0 auto; /* Center it */
+}
+
+.navbar_links:hover {
+  color: #321df1;
+  transition: all 0.5s ease;
+}
+
+.navbar_btn{
+  margin-left: 20px;
+  margin-right: 20px;       /* Push the Login button to the right */
+}
+
+.button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center; /* Keeps text centered */
+  text-decoration: none;
+  padding: 10px 20px; 
+  height: 55px;
+  width: 100px;
+  border: 1px solid black;
+  outline: none;
+  border-radius: 10px;
+  background: rgb(11, 160, 11);
+  box-shadow: inset 0 0 5px black; /* Adds spacing inside */
+  color: #fff; 
+}
+
+.button:hover{
+  background: darkgreen;
+  transition: all 0.5s ease;
+}
+
+.navbar_btn{
+  margin-left: 0;
+}
+
+/* Dashboard button (Hamburger) */
+.dashboard_btn {
+  display: none; /* Hidden by default */
+  margin-right: 20px;
+  height: 22px;
+  width: 50px;
+  cursor: pointer;
+}
+ 
+.dashboard_btn:hover .bar {
+  background-color: #321df1;
+  transition: all 0.5s ease;
+}
+
+.bar {
+  background-color: #4285f4;
+  height: 4px;
+  width: 100%;
+  border-radius: 2px;
+  margin-bottom: 7px;
+}
+
+@media screen and (max-width: 920px){
+  .navbar_menu {
+    display: none; /* Hide menu items */
+  }
+
+  .dashboard_btn {
+    display: block; /* Stack the buttons vertically on small screens */
+  }
+}
+
+/* Dashboard Menu Styles */
+.dashboard {
+  display: fixed;
+  position: fixed;
+  top: 0;
+  left: -400px; /* Initially hidden */
+  width: 400px;
+  height: 100%;
+  background-color: #1685b9;
+  z-index: 5;
+  transition: left 0.5s ease; /* Slide effect */
+  box-shadow: inset 0 0 10px black; /* Adds spacing inside */
+}
+
+.dash_container{
+  padding: 20px;
+  min-height: 88vh; /* Ensure there's enough height for the content */
+}
+
+.dashboard.active {
+  left: 0; /* When active, slide the menu into view */
+
+  .navbar_links:hover {
+    color: #321df1;
+    transition: all 0.5s ease;
+  }
+
+  .navbar_links {
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .footer_container {
+    min-height: 12vh; /* Ensure there's enough height for the content */
+
+  }
+
+    /* Footer Header Styling */
+  .footer_header h2 {
+    font-size: .8em; /* Adjust size as needed */
+  }
+
+  .footer_link_items p {
+    margin: 0; /* Remove default margins on <p> */
+    font-size: .75em; /* Adjust font size */
+  }
+    /* Social Icons Styling */
+  #social_ico {
+    width: 10px; /* Adjust icon size */
+    height: 10px;
+  }
+}
+
+.dash_menu {
+  list-style: none;
+  display: flex; /* Enable flexbox layout */
+  flex-direction: column; /* Stack items vertically */
+  gap: 20px; /* Adds space between each navbar_link */
+}
+
+.dash_logo{
+  font-size: 3rem;
+  color: white;
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.dashlogo {
+  color: inherit; /* Remove the purple color, inherit from parent */
+  text-decoration: none; /* Remove underline */
+}
+
+.dashlogo:hover {
+  color: #321df1;
+  transition: all 0.5s ease;
+}
+
+@media screen and (min-width: 920px) {
+  .dashboard {
+    display: none;
+    left: -400px; /* Initially hidden */
+  }
+  .dashboard_btn {
+    display: none; /* Hide the hamburger button */
+  }
+}
+
+/* Footer Container Styling */
+.footer_container {
+  display: flex; /* Enable Flexbox */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  background-color: #1176a5; /* Match the page background color or customize */
+  padding: 20px; /* Add spacing inside the footer */
+  color: rgb(0, 0, 0); /* Text color */
+  text-align: center; /* Align text to center */
+  box-shadow: inset 0 0 5px black; /* Adds inner shadow */
+  margin: auto 0;
+}
+
+/* Footer Header Styling */
+.footer_header h2 {
+  margin: 0 0 10px 0; /* Space below the header */
+  font-size: 1em; /* Adjust size as needed */
+}
+.footer_text{
+  text-decoration: underline;
+}
+
+/* Footer Links Container */
+.footer_link_items {
+  display: flex; /* Enable Flexbox */
+  flex-direction: row; /* Display items in a row */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  flex-wrap: wrap; /* Wrap items if needed */
+  gap: 10px; /* Space between items */
+}
+
+/* Social Icons Styling */
+#social_ico {
+  width: 15px; /* Adjust icon size */
+  height: 15px;
+}
+
+.footer_link_items p {
+  font-size: 1em; /* Adjust font size */
+}
+
+/*white text with black border */
+.text_border {
+  color: white; /* Main text color */
+  text-shadow: 
+      -1px -1px 0 black, 
+       1px -1px 0 black, 
+      -1px 1px 0 black, 
+       1px 1px 0 black, /* Basic outline */
+      -2px -2px 0 rgb(48, 47, 47),
+       2px -2px 0 rgb(48, 47, 47),
+      -2px 2px 0 rgb(48, 47, 47),
+       2px 2px 0 rgb(48, 47, 47); /* fade to gray*/
+  font-weight: bold; /* Bold for stronger visibility */
+}

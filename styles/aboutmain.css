@@ -1,0 +1,41 @@
+/* General body styling */
+body {
+    background-color: #199fdd; /* Light blue background */
+    font-family: 'Playfair Display', sans-serif; /* Consistent font */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Main content container */
+.main_container {
+    background-color: #199fdd;
+    padding: 3% 5%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1; /* Horizontal offset: 0, Vertical offset: 5px */
+    position: relative; /* Establishes positioning context */
+}
+
+.main_content {
+    font-size: 2rem;
+}
+
+.main_content_text{
+    font-size: 1.2rem;
+    margin: 1% 15% 0 2%;
+    margin-bottom: 50px;
+}
+
+/* Image container */
+.main_img_container {
+    z-index: -1; /* Ensures the shadow appears over the image */
+    position: relative; /* Keep image inside the container */
+
+}
+
+#main_img {
+    width: 100%;
+    height: 100%;
+}
+
+

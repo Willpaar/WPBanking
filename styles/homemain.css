@@ -1,0 +1,123 @@
+/* General body styling */
+body {
+    background-color: #199fdd; /* Light blue background */
+    font-family: 'Playfair Display', sans-serif; /* Consistent font */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+
+/* Main content container */
+.main {
+    background-color: #199fdd;
+    margin: 0 auto; /* Center the content horizontally */
+    max-width: 20000px; /* Limit the overall width of the content */
+    width: 80%;
+    padding: 0px;
+}
+
+/* Flexbox container for the row of main content */
+.main_row {
+    display: flex; /* Enable Flexbox layout */
+    justify-content: space-between; /* Distribute space between containers */
+    align-items: stretch; /* Stretch containers to the same height */
+    gap: 10%; /* Match the gap to the same relative padding as .main */
+    margin: 50px 0; /* Spacing above and below the row */
+    flex-wrap: nowrap; /* Ensure containers stay side by side */
+}
+
+/* Flex item styling for containers */
+.main_container {
+    margin-top: 0px;
+    flex: 1; /* Allow containers to take equal space */
+    border: 2px solid black;
+    background-color: #ffffff;
+    border-radius: 80px;
+    padding: 50px; /* Default padding inside each container */
+    box-shadow: inset 0 0 200px #199fdd; /* Adds inner shadow */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically inside */
+    justify-content: space-between; /* Ensure content is spaced evenly */
+}
+
+/* Content text styling */
+.main_content {
+    text-align: center;
+    font-size: 1.5em; /* Increase font size slightly */
+}
+
+/* Text content styling */
+.main_content_text {
+    background-color: #ffffff;
+    box-shadow: inset 0 0 100px #0099e0; /* Adds inner shadow */
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 100%; /* Ensure text content fills container */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    padding: 20px; /* Slightly larger padding */
+    font-size: 1em; /* Slightly increase text size */
+}
+
+.main_img_container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+
+  }
+  
+
+/* Image styling */
+#main_img {
+    width: 100%; /* Makes the image responsive */
+    height: auto; /* Maintain the aspect ratio */
+    border-radius: 10px;
+    max-width: 100%; /* Ensure the image fills the container without exceeding */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); /* Adds shadow to the image */
+
+}
+
+
+@media (max-width: 1100px) {
+    .main {
+        padding: 0 10px; /* Minimal side padding */
+    }
+    .main_row {
+        flex-wrap: wrap; /* Allow containers to stack vertically */
+        gap: 15px; /* Even smaller gap for smaller screens */
+    }
+    .main_container {
+        max-width: 100%; /* Full width for each container */
+        min-width: 100%; /* Ensure full width on small screens */
+        padding: 20px; /* Smaller padding inside containers */
+    }
+}
+
+
+ /* Container for the image and text */
+ .image-container {
+    position: relative; /* Position parent relative for child positioning */
+    width: 300px; /* Set a width for the container */
+}
+
+/* Image styling */
+.image-container img {
+    width: 100%; /* Make the image responsive */
+    display: block; /* Remove extra space below image */
+}
+
+/* Text styling */
+.image-text {
+    position: absolute; /* Position the text relative to the container */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for true center */
+    color: white; /* Text color */
+    font-size: 24px; /* Font size */
+    font-weight: bold; /* Make it stand out */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add text shadow for readability */
+}
