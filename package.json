@@ -1,0 +1,13 @@
+{
+    "name": "wpbanking",
+    "version": "1.0.0",
+    "main": "api/index.js",
+    "dependencies": {
+      "path": "^0.12.7"
+    },
+    "scripts": {
+      "dev": "vercel dev",
+      "start": "node api/index.js"
+    }
+  }
+  

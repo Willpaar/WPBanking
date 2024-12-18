@@ -1,3 +1,4 @@
+//this code is for testing the website locally
 const { createServer } = require('node:http');
 const fs = require('fs');
 const path = require('path');
