@@ -18,7 +18,7 @@ module.exports = (req, res) => {
 
   // Define your routes
   const routes = {
-    '/': './public/HTML/home.html',
+    '/': './public/HTML/index.html',
     '/about': './public/HTML/about.html',
     '/whyWP': './public/HTML/whyWP.html',
     '/login': './public/HTML/login.html',
