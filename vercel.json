@@ -9,27 +9,28 @@
     {
         "src": "/",
         "dest": "/HTML/index.html"
-        },
-        {
+    },
+    
+    {
         "src": "/about",
         "dest": "/HTML/about.html"
-        },
-        {
+    },
+
+    {
         "src": "/whywp",
         "dest": "/HTML/whywp.html"
-        },
-        {
+    },
+
+    {
         "src": "/contact",
         "dest": "/HTML/contact.html"
-        },
-        {
+    },
+
+    {
         "src": "/login",
         "dest": "/HTML/login.html"
-        },
-        {
-        "src": "/(.*)",
-        "dest": "/$1"
-        },
+    },
+
     
     {
         "src": "/styles/(.*)",
