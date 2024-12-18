@@ -1,9 +1,0 @@
-{
-    "name": "wpbank",
-    "version": "1.0.0",
-    "scripts": {
-      "build": "echo 'No build process required.'",
-      "start": "echo 'No start process required.'"
-    }
-  }
-  
