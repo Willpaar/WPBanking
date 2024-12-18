@@ -17,24 +17,10 @@
       },
 
       {
-        "src": "/whyWP",
-        "dest": "/public/HTML/whywp.html"
+        "src": "/HTML/(.*)",
+        "dest": "/public/HTML/$1"
       },
 
-      {
-        "src": "/contact",
-        "dest": "/public/HTML/contact.html"
-      },
-      
-      {
-        "src": "/login",
-        "dest": "/public/HTML/login.html"
-      },
-
-      {
-        "src": "/notfound",
-        "dest": "/public/HTML/notfound.html"
-      },
     
     {
         "src": "/styles/(.*)",
