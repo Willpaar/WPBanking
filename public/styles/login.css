@@ -99,6 +99,25 @@ body{
     animation: fadeIn 0.3s ease; /* Optional fade-in effect */
 }
 
+#create_acc_btn {
+    border-radius: 5px;
+    width: 20vw;
+    height: 3vw;
+    border-width: 1px;
+    transition: .5s;
+    font-family: 'Playfair Display', sans-serif;
+    font-size: 1.1vw;
+    background-color: #000000;
+    color: white;
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
+}
+
+#create_acc_btn:hover {
+    height: 3.5vw;
+    width: 22vw;
+    cursor: pointer;
+}
+
 /* Signup content styles */
 .signup {
     background-color: #fff;
@@ -116,7 +135,7 @@ body{
 
 /* Open animation: Bring modal content up */
 .signup.open {
-    bottom: 20%; /* Final position above the bottom */
+    bottom: 7vw; /* Final position above the bottom */
 
     .submit{
       margin-top: 10%;
@@ -176,7 +195,7 @@ body{
 
 /* Open animation: Bring modal content up */
 .forgotpassword.open {
-    bottom: 20%; /* Final position above the bottom */
+    bottom: 7vw; /* Final position above the bottom */
 }
 
 /* Close button styles */

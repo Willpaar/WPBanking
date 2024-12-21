@@ -1,4 +1,6 @@
-//code to pull out dashboard
+/*
+code to pull out dashboard
+*/
 document.addEventListener('DOMContentLoaded', () => {
     const dashboardBtn = document.querySelector('.dashboard_btn');
     const dashboard = document.querySelector('.dashboard');
@@ -23,25 +25,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-//makes submit button go back to normal size when clicked
-const submitBtn = document.getElementById('submit_btn')
 
-submitBtn.addEventListener('mousedown', function () {
-    // Temporarily remove the hover size on click
-    submitBtn.style.width = '20vw';
-    submitBtn.style.height = '3vw';
-});
+/*
+makes buttons go back to normal size when clicked
+*/
+// Get both buttons by their unique IDs
+const submitBtnLogin = document.getElementById('submit_btn');
+const submitBtnSignup = document.getElementById('create_acc_btn');
 
-submitBtn.addEventListener('mouseup', function () {
-    // Restore hover effect after click
+// Function to shrink the button when clicked
+function shrinkButton(button) {
+    button.style.width = '20vw';
+    button.style.height = '3vw';
+}
+
+// Function to restore the button size after release
+function restoreButtonSize(button) {
     setTimeout(() => {
-        submitBtn.style.width = '';
-        submitBtn.style.height = '';
+        button.style.width = '';
+        button.style.height = '';
     }, 300); // Delay to make the transition visible
+}
+
+// Add event listeners to both buttons
+submitBtnLogin.addEventListener('mousedown', function () {
+    shrinkButton(submitBtnLogin);
+});
+
+submitBtnLogin.addEventListener('mouseup', function () {
+    restoreButtonSize(submitBtnLogin);
+});
+
+submitBtnSignup.addEventListener('mousedown', function () {
+    shrinkButton(submitBtnSignup);
+});
+
+submitBtnSignup.addEventListener('mouseup', function () {
+    restoreButtonSize(submitBtnSignup);
 });
 
 
-//open sign up menu
+/*
+open sign up menu
+*/
 // Get the signup container and relevant elements
 const signupContainer = document.getElementById('signupModal');
 const signupContent = signupContainer.querySelector('.signup');
@@ -76,7 +102,9 @@ signupContainer.addEventListener('click', (event) => {
 });
 
 
-//pop up for forgot password
+/*
+pop up for forgot password
+ */
 // Forgot Password Modal Toggle
 const forgotPasswordModal = document.getElementById('forgotPasswordModal');
 const forgotPasswordLink = document.querySelector('.forgot a'); // Your "Forgot Password" link
