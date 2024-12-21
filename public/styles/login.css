@@ -1,0 +1,189 @@
+body{  
+    background-color: #e4e4e4;
+    transition: .5s;
+}
+.login_container {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.login_container h1{
+    font-size: 3vw;
+}
+
+.input_field {
+    height: 3vw;
+    width: 20vw;
+    border-radius: 5px;
+    margin-top: 8%;
+    border: none;
+    padding-left:  5%;
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
+    transition: .5s;
+    font-size: 1.1vw;
+}
+
+.input_field:focus {
+    height: 3.3vw;
+    width: 22vw;
+}
+
+#check:hover{
+    cursor: pointer;
+}
+
+.forgot {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5%;
+    margin-bottom: 4%;
+    gap: 5vw;
+    font-size: 1vw;
+}
+
+.submit {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1vw;
+    gap: 3.3vw;
+}
+
+
+#submit_btn {
+    border-radius: 5px;
+    width: 20vw;
+    height: 3vw;
+    border-width: 1px;
+    transition: .5s;
+    font-family: 'Playfair Display', sans-serif;
+    font-size: 1.1vw;
+    background-color: #000000;
+    color: white;
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
+}
+
+#submit_btn:hover {
+    height: 3.5vw;
+    width: 22vw;
+    cursor: pointer;
+}
+
+
+.create_account{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5%;
+    margin-bottom: 4%;
+    gap: 6vw;
+    font-size: 1vw;
+}
+
+/* Signup container styles */
+.signup_container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 10; /* Ensures it is above other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent scrolling while modal is active */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    animation: fadeIn 0.3s ease; /* Optional fade-in effect */
+}
+
+/* Signup content styles */
+.signup {
+    background-color: #fff;
+    position: absolute; /* Start off-screen */
+    bottom: -100%; /* Ensure it's fully off-screen initially */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    padding: 20px;
+    border-radius: 10px;
+    width: 30vw; /* Adjust width as needed */
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s ease, bottom 0.5s ease; /* Smooth animation */
+}
+
+/* Open animation: Bring modal content up */
+.signup.open {
+    bottom: 20%; /* Final position above the bottom */
+
+    .submit{
+      margin-top: 10%;
+      margin-bottom: 10%;  
+    }
+
+}
+
+/* Optional fade-in background */
+@keyframes fadeIn {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Close button styles */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+
+/* Forgot Password container styles */
+.forgotpassword_container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 10; /* Ensures it is above other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent scrolling while modal is active */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    animation: fadeIn 0.3s ease; /* Optional fade-in effect */
+}
+
+/* Forgot Password content styles */
+.forgotpassword {
+    background-color: #fff;
+    position: absolute; /* Start off-screen */
+    bottom: -100%; /* Ensure it's fully off-screen initially */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    padding: 20px;
+    border-radius: 10px;
+    width: 30vw; /* Adjust width as needed */
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s ease, bottom 0.5s ease; /* Smooth animation */
+}
+
+/* Open animation: Bring modal content up */
+.forgotpassword.open {
+    bottom: 20%; /* Final position above the bottom */
+}
+
+/* Close button styles */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+}

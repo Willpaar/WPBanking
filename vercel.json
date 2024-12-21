@@ -40,7 +40,6 @@
         "src": "/styles/(.*)",
         "dest": "/public/styles/$1"
       },
-  
      
       {
         "src": "/images/(.*)",
