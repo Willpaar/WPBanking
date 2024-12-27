@@ -135,7 +135,7 @@ body{
 
 /* Open animation: Bring modal content up */
 .signup.open {
-    bottom: 7vw; /* Final position above the bottom */
+    bottom: 5vw; /* Final position above the bottom */
 
     .submit{
       margin-top: 10%;
@@ -178,7 +178,6 @@ body{
     animation: fadeIn 0.3s ease; /* Optional fade-in effect */
 }
 
-/* Forgot Password content styles */
 .forgotpassword {
     background-color: #fff;
     position: absolute; /* Start off-screen */
@@ -187,7 +186,10 @@ body{
     transform: translateX(-50%); /* Center horizontally */
     padding: 20px;
     border-radius: 10px;
-    width: 30vw; /* Adjust width as needed */
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack elements vertically */
+    gap: 2vw; /* Adds space between the elements */
+    width: 30vw; /* Adjust width as    gap: 4vw; /* Adds space between the elements */
     text-align: center;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
     transition: transform 0.5s ease, bottom 0.5s ease; /* Smooth animation */
@@ -195,7 +197,7 @@ body{
 
 /* Open animation: Bring modal content up */
 .forgotpassword.open {
-    bottom: 7vw; /* Final position above the bottom */
+    bottom: 20vw; /* Final position above the bottom */
 }
 
 /* Close button styles */
@@ -204,5 +206,25 @@ body{
     top: 10px;
     right: 20px;
     font-size: 2rem;
+    cursor: pointer;
+}
+
+
+#send_email_btn {
+    border-radius: 5px;
+    width: 20vw;
+    height: 3vw;
+    border-width: 1px;
+    transition: .5s;
+    font-family: 'Playfair Display', sans-serif;
+    font-size: 1.1vw;
+    background-color: #000000;
+    color: white;
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
+}
+
+#send_email_btn:hover {
+    height: 3.5vw;
+    width: 22vw;
     cursor: pointer;
 }

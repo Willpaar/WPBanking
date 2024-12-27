@@ -32,6 +32,16 @@
       },
 
       {
+        "src": "/forgot",
+        "dest": "/public/HTML/forgot.html"
+      },
+      
+      {
+        "src": "/dashboard",
+        "dest": "/public/HTML/dashboard.html"
+      },
+
+      {
         "src": "/notfound",
         "dest": "/public/HTML/notfound.html"
       },
