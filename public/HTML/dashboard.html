@@ -7,7 +7,21 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <h1>Welcome, <span id="user-name">Loading...</span></h1>
+    <div class="top">
+        <div class="name_container">
+            <h1>Welcome, <span id="user-name">Loading...</span></h1>
+        </div>
+        <div class="add_container">
+            <button class="add" id="openAddModal">Add Account +</button>
+        </div>
+    </div>
+
+    <!-- Add Account Modal -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <!-- contents in dashboard.js just need the containers -->
+        </div>
+    </div>
 
     <script type="module" src="/scripts/dashboard.js"></script>
 </body>

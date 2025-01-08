@@ -1,0 +1,139 @@
+/* Reset for body and html */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {  
+    background-color: #ffffff;
+    transition: .75s;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between; /* Align items to the left and right */
+    align-items: center; /* Center items vertically */
+    padding: 0 2vw; /* Optional: Add horizontal padding */
+    height: 4vw;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5); /* Horizontal offset: 0, Vertical offset: 5px */
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: #fff; /* Optional: Ensure background covers the sticky bar */
+}
+
+.name_container h1 {
+    margin: 0; /* Remove default margin */
+    font-size: 3vw; /* Adjust size */
+}
+
+.add_container .add {
+    border-radius: 5px;
+    padding: 0.5vw 1vw;
+    font-size: 1vw;
+    font-family: 'Playfair Display', sans-serif;
+    background-color: #4285f4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.add_container .add:hover {
+    background-color: #2b7cff; /* Slightly lighter background on hover */
+}
+
+/* General Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 10; /* Ensure it is above other elements */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent scrolling while modal is active */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    animation: fadeIn 0.3s ease; /* Optional fade-in effect */
+}
+
+.modal-content {
+    background-color: #fff;
+    position: absolute;
+    bottom: -100%; /* Ensure it's fully off-screen initially */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    font-size: 1.5vw;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack elements vertically */
+    gap: 2vw; /* Adds space between elements */
+    width: 30vw;
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s ease, bottom 0.5s ease; /* Smooth animation */
+}
+
+/* Open animation: Bring modal content up */
+.modal-content.open {
+    bottom: 20vw; /* Final position above the bottom */
+}
+
+/* Close button styles */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Buttons inside the modal */
+.submit_but {
+    border-radius: 5px;
+    width: 20vw;
+    height: 3vw;
+    border-width: 1px;
+    transition: .5s;
+    font-family: 'Playfair Display', sans-serif;
+    font-size: 1.1vw;
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+    box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.submit_but:hover {
+    height: 3.5vw;
+    width: 22vw;
+    cursor: pointer;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+
+#accountName{
+    height: 3vw;
+    width: 18vw;
+    border-radius: 5px;
+    border: none;
+    padding-left:  5%;
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
+    transition: .5s;
+    font-size: 1.1vw;
+}
+
+#accountName:focus {
+    height: 3.3vw;
+    width: 20vw;
+}
