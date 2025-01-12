@@ -352,20 +352,28 @@ function withdrawDepositModal(accountId, type, balance){
 }
 
 async function changeBalance(accountId, type, amount, balance){
-    if(type === 'Withdraw'){
-        if(balance < amount){
-            alert('Insuficient Funds!');
+    // Convert amount to a float for calculations
+    const numericAmount = parseFloat(amount);
+    let newBalance = balance;
+
+    // Handle Withdrawals
+    if (type === 'Withdraw') {
+        if (balance < numericAmount) {
+            alert('Insufficient Funds!');
             return;
         }
-        balance -= amount;
+        newBalance = balance - numericAmount;
     }
-    else{
-        balance += amount;
+    // Handle Deposits
+    else if (type === 'Deposit') {
+        newBalance = balance + numericAmount;
+    } else {
+        alert('Invalid transaction type.');
+        return;
     }
-
     const { data, error } = await supabase
         .from('bank_accounts')
-        .update({ balance: balance })
+        .update({ balance: newBalance })
         .eq('account_id', accountId);
 
     if (error) {
