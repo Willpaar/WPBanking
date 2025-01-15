@@ -153,7 +153,7 @@ body {
     border-radius: 8px;
     padding: 1vw;
     width: 42vw;
-    height: 10vw;
+    height: 13vw;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     background-color: #f9f9f9;
 }
@@ -186,22 +186,6 @@ body {
 #deleteAccountBtn {
     background-color: #f70000;
     border-color: #aa0000;
-}
-
-#ammount{
-    height: 3vw;
-    width: 18vw;
-    border-radius: 5px;
-    border: none;
-    padding-left:  5%;
-    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
-    transition: .5s;
-    font-size: 1.1vw;
-}
-
-#ammount:focus {
-    height: 3.3vw;
-    width: 20vw;
 }
 
 #balance{
@@ -255,3 +239,47 @@ body {
     color: white;
 }
 
+/* Buttons inside the modal */
+.select {
+    border-radius: 5px;
+    width: 20vw;
+    height: 3vw;
+    border-width: 1px;
+    transition: .5s;
+    font-family: 'Playfair Display', sans-serif;
+    font-size: 1.1vw;
+    box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.select:hover {
+    cursor: pointer;
+}
+
+.select:focus {
+    height: 3.5vw;
+    width: 22vw;
+    cursor: pointer;
+}
+
+.input_box_cont{
+    margin-right: 1vw;
+}
+
+.foreign_account_input{
+    margin-right: 1vw;
+}
+
+.input_box{
+    height: 3vw;
+    width: 19vw;
+    border-radius: 5px;
+    border: none;
+    padding-left:  5%;
+    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
+    transition: .5s;
+    font-size: 1.1vw 
+}
+.input_box:focus{
+    height: 3.3vw;
+    width: 20vw;
+}

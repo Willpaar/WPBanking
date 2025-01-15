@@ -5,7 +5,10 @@ const supabaseUrl = 'https://bgrisydercrhmvtihfhi.supabase.co';
 //not secure can update later
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJncmlzeWRlcmNyaG12dGloZmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ3NjA5MTMsImV4cCI6MjA1MDMzNjkxM30.ElC0GaMouwQ96uhzZeeRpb8wo5H0X8R8tYzb4QLjY8s';
 const supabase = createClient(supabaseUrl, supabaseKey);
-// Function to load or refresh the dashboard
+
+/*
+this section will hold code for loading the screan contents
+*/ 
 
 // Function to load and display user bank accounts
 async function loadUserAccounts() {
@@ -39,8 +42,9 @@ async function loadUserAccounts() {
             const accountBox = document.createElement('div');
             accountBox.classList.add('account-box');
             accountBox.innerHTML = `
-                <h1>${account.acc_name}</h1>
+                <h1>${account.acc_name} </h1>
                 <h3>${account.account_type}</h3>
+                <h3>Account Number: ${account.account_id}</h3>
                 <p>Balance: $${account.balance.toFixed(2)}</p>
                 <button class="gear-btn" data-account-id="${account.account_id}">⚙️</button>
             `;
@@ -58,7 +62,6 @@ async function loadUserAccounts() {
         alert('An unexpected error occurred. Please try again.');
     }
 }
-
 
 async function loadDashboard() {
     try {
@@ -101,16 +104,58 @@ async function loadDashboard() {
     }
 }
 
+/*this section will be functions used to get data from supabase */
+
+async function getUserID() {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError) {
+        console.error('Error fetching user:', userError);
+        return null;
+    }
+
+    return user?.id || null;  // Returns the user's Id or null if not found
+}
+
+async function getAccBalance(accountId) {
+    try {
+        const { data, error } = await supabase
+            .from('bank_accounts')
+            .select('balance')
+            .eq('account_id', accountId)
+            .single();  // Ensures only one result is returned
+
+        if (error) {
+            console.error('Error fetching accounts:', error);
+            return null;  // Return null to indicate error fetching the balance
+        }
+
+        return data.balance;  // Return the balance from the result
+
+    } catch (err) {
+        console.error('Unexpected error:', err.message);
+        return null;  // Return null in case of an unexpected error
+    }
+}
+
+// Helper function to capitalize the first letter
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+//checks if the num is a dollar ammount
+function isInvalidAmount(amount) {
+    return amount.trim() === '' || amount <= 0 || !/^\d+(\.\d{1,2})?$/.test(amount);
+}
+
 // Load dashboard on page load
 document.addEventListener('DOMContentLoaded', async () => {
     await loadDashboard();
 });
 
-
 /*
 this section is for creating an account
 */ 
-
 
 // Add Account Modal Toggle
 const addModal = document.getElementById('addModal');
@@ -163,7 +208,6 @@ openAddModal.addEventListener('click', () => {
     resetModalToOriginalMenu();
 });
 
-
 // Function to change modal to account creation form
 function changeModalToAccountForm(accountType) {
     const modalContent = document.querySelector('.modal-content');
@@ -176,8 +220,8 @@ function changeModalToAccountForm(accountType) {
     const accountFormHTML = `
         <span class="close" id="closeAddModal">&times;</span>
         <h2>Create ${accountType}</h2>
-        <div class="input_box">
-            <input type="text" id="accountName" placeholder="Account Name" required>
+        <div class="input_box_cont">
+            <input class = "input_box" type="text" id="accountName" placeholder="Account Name" required>
         </div>
         <div class="submit">
             <button class="submit_but" id="createAccountBtn">Create ${accountType} Account</button>  
@@ -195,7 +239,7 @@ function changeModalToAccountForm(accountType) {
         }
 
         try {
-            // Get the current user session to access the user ID
+            // Get the current user session to access the user Id
             const { data: { user }, error: userError } = await supabase.auth.getUser();
 
             if (userError || !user) {
@@ -245,7 +289,6 @@ function changeModalToAccountForm(accountType) {
 this section is for opening account settings
 */ 
 
-
 // Event listener for gear buttons opens a modal
 document.addEventListener('click', (event) => {
     if (event.target.classList.contains('gear-btn')) {
@@ -260,7 +303,6 @@ document.addEventListener('click', (event) => {
 
     }
 });
-
 
 function changeModalToAccountSettings(accountId) {
     supabase
@@ -310,9 +352,11 @@ function changeModalToAccountSettings(accountId) {
                 areYouSureDelete(accountId);
             });
 
+            document.getElementById('transferBtn').addEventListener('click', () =>{
+                transferPage(accountId);
+            });
         });
 }
-
 
 function withdrawDepositModal(accountId, type, balance){
     const modalContent = document.querySelector('.modal-content');
@@ -321,8 +365,8 @@ function withdrawDepositModal(accountId, type, balance){
     <span class="close" id="closeAddModal">&times;</span>
     <h1>${type} How Much?</h1>
     <p id="balance" >Balance: $${balance}</p>
-    <div class="input_box">
-        <input type="number" id="ammount" placeholder="${type} Amount" required>
+    <div class="input_box_cont">
+        <input class = "input_box" type="number" id="ammount" placeholder="${type} Amount" required>
     </div>
     <div class="submit">
         <button class="submit_but" id="submit_ammount">${type}</button>  
@@ -342,18 +386,164 @@ function withdrawDepositModal(accountId, type, balance){
     //attach withdrawl and deposit buttons
     document.getElementById('submit_ammount').addEventListener('click', () => {
         const amount = document.getElementById('ammount').value;
-        if (amount.trim() === '' || amount <= 0 || !/^\d+(\.\d{1,2})?$/.test(amount)) {
+        if (isInvalidAmount(amount)) {
             alert('Please enter a valid amount');
             return;
         }
+
         changeBalance(accountId, type, amount, balance);
     });
 
 }
 
-async function changeBalance(accountId, type, amount, balance){
+async function transferPage(currentAccID) {
+    // Wait for the user Id to be fetched
+    const userID = await getUserID();
+    if (!userID) {
+        console.error('User Id not found.');
+        return;
+    }
+
+    // Wait for the account names to be fetched
+    const accountNames = await getOtherAccountNames(userID, currentAccID);
+
+    const modalContent = document.querySelector('.modal-content');
+
+    const accountFormHTML = `
+        <span class="close" id="closeAddModal">&times;</span>
+        <h1>Transfer How Much?</h1>
+        <select class="select" id="selectAccount" name="Select Account">
+            <option value="" disabled selected>Select Account To Transfer To</option>
+            <option value="other">Other: Enter Foreign Account Number</option> <!-- Foreign Account Option -->
+        </select>
+        <div class="foreign_account_input" style="display: none;">
+            <input class="input_box" type="text" id="foreignAccountNumber" placeholder="Enter Foreign Account Number" required>
+        </div>
+        <div class="input_box_cont">
+            <input class="input_box" type="number" id="Tammount" placeholder="Transfer Amount" required>
+        </div>
+        <div class="submit">
+            <button class="submit_but" id="submit_ammount">Transfer</button>  
+        </div>
+    `;
+
+    modalContent.innerHTML = accountFormHTML;
+
+    // Populate the dropdown with account names and IDs
+    const selectElement = document.getElementById('selectAccount');
+    accountNames.forEach(account => {
+        const option = document.createElement('option');
+        option.value = account.account_id;  // Set account Id as the option value
+        option.textContent = account.acc_name;  // Display the account name
+        selectElement.appendChild(option);
+    });
+
+    // Handle the "Other: Enter Foreign Account Number" option toggle
+    selectElement.addEventListener('change', function() {
+        const foreignAccountInput = document.querySelector('.foreign_account_input');
+        if (this.value === 'other') {
+            foreignAccountInput.style.display = 'block'; // Show input for foreign account number
+        } else {
+            foreignAccountInput.style.display = 'none'; // Hide input if not selecting "other"
+        }
+    });
+
+    // Event listener for the transfer button
+    document.getElementById('submit_ammount').addEventListener('click', () => {
+        const transferAmount = document.getElementById('Tammount').value;
+        const selectedAccountID = selectElement.value;
+        const selectedAccountName = selectElement.options[selectElement.selectedIndex]?.text;
+        const foreignAccountNumber = document.getElementById('foreignAccountNumber').value;
+
+        // Validation check for transfer amount and account selection
+        if (isInvalidAmount(transferAmount)) {
+            alert('Please enter a valid transfer amount.');
+            return;
+        }
+
+        if (selectedAccountID === '' && !foreignAccountNumber) {
+            alert('Please select an account or enter a foreign account number.');
+            return;
+        }
+
+        if (selectedAccountID !== 'other' && selectedAccountID !== '' && !selectedAccountName) {
+            alert('Please select a valid account to transfer to.');
+            return;
+        }
+
+        if (selectedAccountID === 'other' && !foreignAccountNumber) {
+            alert('Please enter a foreign account number.');
+            return;
+        }
+
+        if (!validTransfer(currentAccID, transferAmount)){
+            alert('Not enough funds.');
+            return;
+        }
+
+        //transfer is valid so withdraw money
+        changeBalance(currentAccID, 'Withdraw',transferAmount);
+  
+        //and deposit in another account
+        if (selectedAccountID === 'other') {
+            changeBalance(foreignAccountNumber, 'Deposit', transferAmount);
+            alert(`Transferred $${transferAmount} from Account #${currentAccID} to Foreign Account #${foreignAccountNumber}`);
+
+
+        } else {
+            changeBalance(selectedAccountID, 'Deposit', transferAmount);
+            alert(`Transferred $${transferAmount} from Account #${currentAccID} into ${selectedAccountName} (Account #${selectedAccountID})`);
+        }
+
+    });
+
+    // Reattach the close button functionality AFTER updating content
+    document.getElementById('closeAddModal').addEventListener('click', () => {
+        modalContent.classList.remove('open');
+        setTimeout(() => {
+            document.querySelector('.modal').style.display = 'none';
+        }, 500);
+    });
+}
+
+async function validTransfer(withdrawId, transferAmount) {
+    let withdrawBalance = await getAccBalance(withdrawId);
+    console.log(transferAmount < withdrawBalance);
+    return transferAmount < withdrawBalance;
+}
+
+async function getOtherAccountNames(userid, currentAccID) {
+    try {
+        const { data, error } = await supabase
+            .from('bank_accounts')
+            .select('account_id, acc_name')
+            .eq('userid', userid);
+
+        if (error) {
+            console.error('Error fetching accounts:', error);
+            return [];
+        }
+
+        // Filter out the current account Id
+        const filteredAccounts = data.filter(account => Number(account.account_id) !== Number(currentAccID));
+
+        // Return an array of objects with account_id and capitalized acc_name
+        const accountNames = filteredAccounts.map(account => ({
+            account_id: account.account_id,
+            acc_name: capitalizeFirstLetter(account.acc_name)
+        }));
+
+        return accountNames;
+    } catch (err) {
+        console.error('Unexpected error:', err.message);
+        return [];
+    }
+}
+
+async function changeBalance(accountId, type, amount){
     // Convert amount to a float for calculations
     const numericAmount = parseFloat(amount);
+    let balance = await getAccBalance(accountId);
     let newBalance = balance;
 
     // Handle Withdrawals
@@ -422,7 +612,6 @@ function areYouSureDelete(accountId){
         deleteAccount(accountId);
     });
 }
-
 
 async function deleteAccount(accountId) {
     const { data, error } = await supabase
