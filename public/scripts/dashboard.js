@@ -13,20 +13,13 @@ this section will hold code for loading the screan contents
 // Function to load and display user bank accounts
 async function loadUserAccounts() {
     try {
-        // Get the current user session
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
-
-        if (userError || !user) {
-            console.error('Error retrieving user:', userError?.message || 'No user found');
-            alert('User not authenticated. Please log in again.');
-            return;
-        }
+        let userId = await getUserId();
 
         // Fetch all bank accounts for the logged-in user
         const { data: accounts, error: accountsError } = await supabase
             .from('bank_accounts')
             .select('account_id, account_type, balance, acc_name') 
-            .eq('userid', user.id);
+            .eq('userid', userId);
         if (accountsError) {
             console.error('Error fetching accounts:', accountsError.message);
             alert('Failed to load accounts. Please try again.');
@@ -68,32 +61,14 @@ async function loadDashboard() {
         // Get the current user session
         const { data: { user }, error } = await supabase.auth.getUser();
 
-        if (error || !user) {
-            console.error('Error retrieving user or no user signed in:', error?.message || 'No user');
-            // Redirect to login page if no user is signed in
-            window.location.href = '/login';
-            return;
-        }
+        let userId = await getUserId();
 
-        console.log('Current user:', user);
-
-        // Fetch the user's name from the userdata table
-        const { data: userdata, error: userdataError } = await supabase
-            .from('userdata')
-            .select('name')
-            .eq('userid', user.id)
-            .single(); // Assuming `userid` is unique
-
-        if (userdataError) {
-            console.error('Error retrieving user data:', userdataError.message);
-            alert('Failed to load user data.');
-            return;
-        }
+        let userName = await getUserName(userId);
 
         // Update the dashboard with the user's name
         const userNameElement = document.getElementById('user-name');
         if (userNameElement) {
-            userNameElement.textContent = userdata.name || 'User'; // Fallback if name is null
+            userNameElement.textContent = userName || 'User'; // Fallback if name is null
         }
 
         //then load accounts
@@ -104,9 +79,16 @@ async function loadDashboard() {
     }
 }
 
-/*this section will be functions used to get data from supabase */
+// Load dashboard on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadDashboard();
+});
 
-async function getUserID() {
+/*
+this section will be functions used to get data from supabase or change data from supabase
+ */
+
+async function getUserId() {
     const { data: { user }, error: userError } = await supabase.auth.getUser();
 
     if (userError) {
@@ -138,9 +120,151 @@ async function getAccBalance(accountId) {
     }
 }
 
-// Helper function to capitalize the first letter
+async function getAccName(accountId) {
+    try {
+        const { data, error } = await supabase
+            .from('bank_accounts')
+            .select('acc_name')
+            .eq('account_id', accountId)
+            .single();  // Ensures only one result is returned
+
+        if (error) {
+            console.error('Error fetching accounts:', error);
+            return null;  // Return null to indicate error fetching the balance
+        }
+
+        return data.acc_name;  // Return the balance from the result
+
+    } catch (err) {
+        console.error('Unexpected error:', err.message);
+        return null;  // Return null in case of an unexpected error
+    }
+}
+
+async function getOtherAccountNames(userid, currentAccID) {
+    try {
+        const { data, error } = await supabase
+            .from('bank_accounts')
+            .select('account_id, acc_name')
+            .eq('userid', userid);
+
+        if (error) {
+            console.error('Error fetching accounts:', error);
+            return [];
+        }
+
+        // Filter out the current account Id
+        const filteredAccounts = data.filter(account => Number(account.account_id) !== Number(currentAccID));
+
+        // Return an array of objects with account_id and capitalized acc_name
+        const accountNames = filteredAccounts.map(account => ({
+            account_id: account.account_id,
+            acc_name: capitalizeFirstLetter(account.acc_name)
+        }));
+
+        return accountNames;
+    } catch (err) {
+        console.error('Unexpected error:', err.message);
+        return [];
+    }
+}
+
+async function getUserName(UserId) {
+    try {
+        // Fetch the user's name from the userdata table
+        const {data, error} = await supabase
+            .from('userdata')
+            .select('name')
+            .eq('userid', UserId)
+            .single(); // Assuming `userid` is unique
+
+        if (error) {
+            console.error('Error retrieving user data:', userdataError.message);
+            alert('Failed to load user data.');
+            return;
+        }
+
+        return data.name;  // Return the balance from the result
+
+    } catch (err) {
+        console.error('Unexpected error:', err.message);
+        return null;  // Return null in case of an unexpected error
+    }
+}
+
+//change account balance Types Withdraw or Deposit
+async function changeBalance(accountId, type, amount){
+    // Convert amount to a float for calculations
+    const numericAmount = parseFloat(amount);
+    let balance = await getAccBalance(accountId);
+    let newBalance = balance;
+
+    // Handle Withdrawals
+    if (type === 'Withdraw') {
+        if (balance < numericAmount) {
+            alert('Insufficient Funds!');
+            return false;
+        }
+        newBalance = balance - numericAmount;
+    }
+    // Handle Deposits
+    else if (type === 'Deposit') {
+        newBalance = balance + numericAmount;
+    } else {
+        alert('Invalid transaction type.');
+        return false;
+    }
+
+    const { data, error } = await supabase
+        .from('bank_accounts')
+        .update({ balance: newBalance })
+        .eq('account_id', accountId);
+
+    if (error) {
+        console.error('Error updating balance:', error);
+        alert('Failed to update balance');
+    } 
+
+    closeModal();
+
+    await loadUserAccounts();
+
+    return true;
+}
+
+async function deleteAccount(accountId) {
+    const { data, error } = await supabase
+        .from('bank_accounts')
+        .delete()
+        .eq('account_id', accountId);
+
+    if (error) {
+        console.error('Error deleting account:', error);
+        alert('Failed to delete the account.');
+    } else {
+        console.log('Account deleted:', data);
+        alert('Account deleted successfully.');
+    }
+
+    document.querySelector('.modal-content').classList.remove('open');
+    setTimeout(() => {
+        addModal.style.display = 'none';
+    }, 500);
+
+    await loadUserAccounts();
+}
+
+
+/* 
+other functions we need
+*/
+
+// Helper function to capitalize the first letter of every word and lowercase the rest
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
 }
 
 //checks if the num is a dollar ammount
@@ -148,10 +272,23 @@ function isInvalidAmount(amount) {
     return amount.trim() === '' || amount <= 0 || !/^\d+(\.\d{1,2})?$/.test(amount);
 }
 
-// Load dashboard on page load
-document.addEventListener('DOMContentLoaded', async () => {
-    await loadDashboard();
-});
+//reattatch the close button
+function attachCloseModal() {
+    document.getElementById('closeAddModal').addEventListener('click', () => {
+        document.querySelector('.modal-content').classList.remove('open');
+        setTimeout(() => {
+            addModal.style.display = 'none';
+        }, 500);
+    });
+}
+
+//close modal
+function closeModal(){
+    document.querySelector('.modal-content').classList.remove('open');
+    setTimeout(() => {
+        addModal.style.display = 'none';
+    }, 500);
+}
 
 /*
 this section is for creating an account
@@ -161,8 +298,19 @@ this section is for creating an account
 const addModal = document.getElementById('addModal');
 const openAddModal = document.getElementById('openAddModal');
 
+// Open Add Account Modal
+openAddModal.addEventListener('click', () => {
+    addModal.style.display = 'flex';
+    setTimeout(() => {
+        document.querySelector('.modal-content').classList.add('open');
+    }, 10); // Delay to allow smooth animation
+
+    // Reset the modal to the original menu every time it opens
+    changeModalToAddAccount();
+});
+
 // Function to reset modal content to original menu (Savings and Checking buttons)
-function resetModalToOriginalMenu() {
+function changeModalToAddAccount() {
     const modalContent = document.querySelector('.modal-content');
 
     // Set the modal content to the original account creation menu
@@ -179,7 +327,6 @@ function resetModalToOriginalMenu() {
 
     modalContent.innerHTML = originalMenuHTML;
 
-    // Reattach the event listeners to the buttons
     document.getElementById('create_savings').addEventListener('click', () => {
         changeModalToAccountForm('Savings');
     });
@@ -188,25 +335,8 @@ function resetModalToOriginalMenu() {
         changeModalToAccountForm('Checking');
     });
 
-    // Reattach the close button functionality
-    document.getElementById('closeAddModal').addEventListener('click', () => {
-        document.querySelector('.modal-content').classList.remove('open');
-        setTimeout(() => {
-            addModal.style.display = 'none';
-        }, 500);
-    });
+    attachCloseModal();
 }
-
-// Open Add Account Modal
-openAddModal.addEventListener('click', () => {
-    addModal.style.display = 'flex';
-    setTimeout(() => {
-        document.querySelector('.modal-content').classList.add('open');
-    }, 10); // Delay to allow smooth animation
-
-    // Reset the modal to the original menu every time it opens
-    resetModalToOriginalMenu();
-});
 
 // Function to change modal to account creation form
 function changeModalToAccountForm(accountType) {
@@ -232,25 +362,20 @@ function changeModalToAccountForm(accountType) {
 
     // Set the submit button functionality
     document.getElementById('createAccountBtn').addEventListener('click', async () => {
-        const accountName = document.getElementById('accountName').value;
+        let accountName = document.getElementById('accountName').value;
         if (accountName.trim() === '') {
             alert('Please enter an account name');
             return;
         }
 
-        try {
-            // Get the current user session to access the user Id
-            const { data: { user }, error: userError } = await supabase.auth.getUser();
+        accountName = capitalizeFirstLetter(accountName);
 
-            if (userError || !user) {
-                console.error('Error retrieving user:', userError?.message || 'No user found');
-                alert('User not authenticated. Please log in again.');
-                return;
-            }
+        try {
+            let userId = await getUserId();
 
             // Call the SQL function to create a bank account
             const { data, error } = await supabase.rpc('create_bank_account', {
-                input_userid: user.id,
+                input_userid: userId,
                 input_account_name: accountName,
                 input_account_type: accountType
             });
@@ -263,10 +388,7 @@ function changeModalToAccountForm(accountType) {
 
             alert(`${accountType} account with name "${accountName}" created!`);
 
-            document.querySelector('.modal-content').classList.remove('open');
-            setTimeout(() => {
-                addModal.style.display = 'none';
-            }, 500);
+            closeModal();
 
             await loadUserAccounts();
 
@@ -276,13 +398,8 @@ function changeModalToAccountForm(accountType) {
         }
     });
 
-    // Reattach the close button functionality after replacing the content
-    document.getElementById('closeAddModal').addEventListener('click', () => {
-        document.querySelector('.modal-content').classList.remove('open');
-        setTimeout(() => {
-            addModal.style.display = 'none';
-        }, 500);
-    });
+    attachCloseModal();
+
 }
 
 /*
@@ -304,61 +421,47 @@ document.addEventListener('click', (event) => {
     }
 });
 
-function changeModalToAccountSettings(accountId) {
-    supabase
-        .from('bank_accounts') 
-        .select('acc_name, balance')
-        .eq('account_id', accountId)
-        .single()
-        .then(({ data, error }) => {
-            if (error) {
-                console.error('Error fetching account:', error.message);
-                alert('Failed to fetch account data.');
-                return;
-            }
+async function changeModalToAccountSettings(accountId) {
+    let accName = await getAccName(accountId);
 
-            const modalContent = document.querySelector('.modal-content');
+    const modalContent = document.querySelector('.modal-content');
 
-            const accountFormHTML = `
-                <span class="close" id="closeAddModal">&times;</span>
-                <h2>${data.acc_name}</h2>
-                <button class="submit_but" id="depositBtn">Deposit</button>
-                <button class="submit_but" id="withdrawalBtn">Withdraw</button>
-                <button class="submit_but" id="transferBtn">Transfer</button>
-                <button class="submit_but" id="deleteAccountBtn">Delete Account</button>
-            `;
+    const accountFormHTML = `
+        <span class="close" id="closeAddModal">&times;</span>
+        <h2>${accName}</h2>
+        <button class="submit_but" id="depositBtn">Deposit</button>
+        <button class="submit_but" id="withdrawalBtn">Withdraw</button>
+        <button class="submit_but" id="transferBtn">Transfer</button>
+        <button class="submit_but" id="deleteAccountBtn">Delete Account</button>
+    `;
 
-            modalContent.innerHTML = accountFormHTML;
+    modalContent.innerHTML = accountFormHTML;
 
-            // Reattach the close button functionality AFTER updating content
-            document.getElementById('closeAddModal').addEventListener('click', () => {
-                modalContent.classList.remove('open');
-                setTimeout(() => {
-                    document.querySelector('.modal').style.display = 'none';  // Updated selector
-                }, 500);
-            });
+    attachCloseModal();
 
-            //attach withdrawl and deposit buttons
-            document.getElementById('depositBtn').addEventListener('click', () => {
-                withdrawDepositModal(accountId, 'Deposit', data.balance);
-            });
-        
-            document.getElementById('withdrawalBtn').addEventListener('click', () => {
-                withdrawDepositModal(accountId, 'Withdraw', data.balance);
-            });
+    //attach withdrawl and deposit buttons
+    document.getElementById('depositBtn').addEventListener('click', () => {
+        withdrawDepositModal(accountId, 'Deposit');
+    });
 
-            //delete button
-            document.getElementById('deleteAccountBtn').addEventListener('click', () => {
-                areYouSureDelete(accountId);
-            });
+    document.getElementById('withdrawalBtn').addEventListener('click', () => {
+        withdrawDepositModal(accountId, 'Withdraw');
+    });
 
-            document.getElementById('transferBtn').addEventListener('click', () =>{
-                transferPage(accountId);
-            });
-        });
+    //delete button
+    document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+        areYouSureDelete(accountId);
+    });
+
+    document.getElementById('transferBtn').addEventListener('click', () =>{
+        transferPage(accountId);
+    });
+
 }
 
-function withdrawDepositModal(accountId, type, balance){
+async function withdrawDepositModal(accountId, type){
+    let balance = await getAccBalance(accountId);
+
     const modalContent = document.querySelector('.modal-content');
 
     const accountFormHTML = `
@@ -375,37 +478,29 @@ function withdrawDepositModal(accountId, type, balance){
 
     modalContent.innerHTML = accountFormHTML;
 
-    // Reattach the close button functionality AFTER updating content
-    document.getElementById('closeAddModal').addEventListener('click', () => {
-        modalContent.classList.remove('open');
-        setTimeout(() => {
-            document.querySelector('.modal').style.display = 'none';  // Updated selector
-        }, 500);
-    });
+    attachCloseModal();
 
     //attach withdrawl and deposit buttons
-    document.getElementById('submit_ammount').addEventListener('click', () => {
+    document.getElementById('submit_ammount').addEventListener('click', async () => {
         const amount = document.getElementById('ammount').value;
         if (isInvalidAmount(amount)) {
             alert('Please enter a valid amount');
             return;
         }
 
-        changeBalance(accountId, type, amount, balance);
-    });
+        if(await changeBalance(accountId, type, amount, balance)){
+            alert(`$${amount} ${type}ed Successfully`);
+        }
 
+    });
 }
 
 async function transferPage(currentAccID) {
     // Wait for the user Id to be fetched
-    const userID = await getUserID();
-    if (!userID) {
-        console.error('User Id not found.');
-        return;
-    }
+    const userId = await getUserId();
 
     // Wait for the account names to be fetched
-    const accountNames = await getOtherAccountNames(userID, currentAccID);
+    const accountNames = await getOtherAccountNames(userId, currentAccID);
 
     const modalContent = document.querySelector('.modal-content');
 
@@ -449,7 +544,7 @@ async function transferPage(currentAccID) {
     });
 
     // Event listener for the transfer button
-    document.getElementById('submit_ammount').addEventListener('click', () => {
+    document.getElementById('submit_ammount').addEventListener('click', async ()=> {
         const transferAmount = document.getElementById('Tammount').value;
         const selectedAccountID = selectElement.value;
         const selectedAccountName = selectElement.options[selectElement.selectedIndex]?.text;
@@ -461,13 +556,8 @@ async function transferPage(currentAccID) {
             return;
         }
 
-        if (selectedAccountID === '' && !foreignAccountNumber) {
+        if (selectedAccountID === '') {
             alert('Please select an account or enter a foreign account number.');
-            return;
-        }
-
-        if (selectedAccountID !== 'other' && selectedAccountID !== '' && !selectedAccountName) {
-            alert('Please select a valid account to transfer to.');
             return;
         }
 
@@ -476,20 +566,18 @@ async function transferPage(currentAccID) {
             return;
         }
 
-        if (!validTransfer(currentAccID, transferAmount)){
-            alert('Not enough funds.');
+        // Attempt withdrawal and wait for it to complete
+        const withdrawalSuccess = await changeBalance(currentAccID, 'Withdraw', transferAmount);
+
+        // If withdrawal fails, stop the transfer
+        if (!withdrawalSuccess) {
             return;
         }
-
-        //transfer is valid so withdraw money
-        changeBalance(currentAccID, 'Withdraw',transferAmount);
   
         //and deposit in another account
         if (selectedAccountID === 'other') {
             changeBalance(foreignAccountNumber, 'Deposit', transferAmount);
             alert(`Transferred $${transferAmount} from Account #${currentAccID} to Foreign Account #${foreignAccountNumber}`);
-
-
         } else {
             changeBalance(selectedAccountID, 'Deposit', transferAmount);
             alert(`Transferred $${transferAmount} from Account #${currentAccID} into ${selectedAccountName} (Account #${selectedAccountID})`);
@@ -497,89 +585,8 @@ async function transferPage(currentAccID) {
 
     });
 
-    // Reattach the close button functionality AFTER updating content
-    document.getElementById('closeAddModal').addEventListener('click', () => {
-        modalContent.classList.remove('open');
-        setTimeout(() => {
-            document.querySelector('.modal').style.display = 'none';
-        }, 500);
-    });
-}
+    attachCloseModal();
 
-async function validTransfer(withdrawId, transferAmount) {
-    let withdrawBalance = await getAccBalance(withdrawId);
-    console.log(transferAmount < withdrawBalance);
-    return transferAmount < withdrawBalance;
-}
-
-async function getOtherAccountNames(userid, currentAccID) {
-    try {
-        const { data, error } = await supabase
-            .from('bank_accounts')
-            .select('account_id, acc_name')
-            .eq('userid', userid);
-
-        if (error) {
-            console.error('Error fetching accounts:', error);
-            return [];
-        }
-
-        // Filter out the current account Id
-        const filteredAccounts = data.filter(account => Number(account.account_id) !== Number(currentAccID));
-
-        // Return an array of objects with account_id and capitalized acc_name
-        const accountNames = filteredAccounts.map(account => ({
-            account_id: account.account_id,
-            acc_name: capitalizeFirstLetter(account.acc_name)
-        }));
-
-        return accountNames;
-    } catch (err) {
-        console.error('Unexpected error:', err.message);
-        return [];
-    }
-}
-
-async function changeBalance(accountId, type, amount){
-    // Convert amount to a float for calculations
-    const numericAmount = parseFloat(amount);
-    let balance = await getAccBalance(accountId);
-    let newBalance = balance;
-
-    // Handle Withdrawals
-    if (type === 'Withdraw') {
-        if (balance < numericAmount) {
-            alert('Insufficient Funds!');
-            return;
-        }
-        newBalance = balance - numericAmount;
-    }
-    // Handle Deposits
-    else if (type === 'Deposit') {
-        newBalance = balance + numericAmount;
-    } else {
-        alert('Invalid transaction type.');
-        return;
-    }
-    const { data, error } = await supabase
-        .from('bank_accounts')
-        .update({ balance: newBalance })
-        .eq('account_id', accountId);
-
-    if (error) {
-        console.error('Error updating balance:', error);
-        alert('Failed to update balance');
-    } else {
-        console.log('Balance updated successfully:', data);
-        alert('Balance updated successfully');
-    }
-
-    document.querySelector('.modal-content').classList.remove('open');
-    setTimeout(() => {
-        addModal.style.display = 'none';
-    }, 500);
-
-    await loadUserAccounts();
 }
 
 function areYouSureDelete(accountId){
@@ -596,13 +603,7 @@ function areYouSureDelete(accountId){
 
     modalContent.innerHTML = accountFormHTML;
 
-    // Reattach the close button functionality AFTER updating content
-    document.getElementById('closeAddModal').addEventListener('click', () => {
-        modalContent.classList.remove('open');
-        setTimeout(() => {
-            document.querySelector('.modal').style.display = 'none';  // Updated selector
-        }, 500);
-    });
+    attachCloseModal();
 
     document.getElementById('Cancel').addEventListener('click', () => {
         changeModalToAccountSettings(accountId);
@@ -612,26 +613,3 @@ function areYouSureDelete(accountId){
         deleteAccount(accountId);
     });
 }
-
-async function deleteAccount(accountId) {
-    const { data, error } = await supabase
-        .from('bank_accounts')
-        .delete()
-        .eq('account_id', accountId);
-
-    if (error) {
-        console.error('Error deleting account:', error);
-        alert('Failed to delete the account.');
-    } else {
-        console.log('Account deleted:', data);
-        alert('Account deleted successfully.');
-    }
-
-    document.querySelector('.modal-content').classList.remove('open');
-    setTimeout(() => {
-        addModal.style.display = 'none';
-    }, 500);
-
-    await loadUserAccounts();
-}
-
