@@ -299,3 +299,18 @@ body {
        2px 2px 0 rgb(48, 47, 47); /* fade to gray*/
   font-weight: bold; /* Bold for stronger visibility */
 }
+
+/* Show full text by default, hide small version */
+.small-logo {
+  display: none;
+}
+
+/* When screen is smaller, switch visibility */
+@media screen and (max-width: 520px) {
+  .full-logo {
+      display: none;
+  }
+  .small-logo {
+      display: inline;
+  }
+}
