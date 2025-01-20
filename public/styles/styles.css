@@ -313,4 +313,14 @@ body {
   .small-logo {
       display: inline;
   }
+
+  /* Social Icons Styling */
+  #social_ico {
+    width: 10px; /* Adjust icon size */
+    height: 10px;
+  }
+
+  .footer_link_items p {
+    font-size: .75em; /* Adjust font size */
+  }
 }
