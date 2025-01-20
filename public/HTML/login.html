@@ -93,71 +93,41 @@
   </div>
   </div>
 
-    <!-- login menu-->
-    <div class="login_container">
-        <h1>Login</h1>  
-        <div class="input_box">
-            <input type="text" class=" input_field" placeholder="Email" autocomplete="off" required>
-        </div>
-        <div class="input_box">
-            <input type= "password" class=" input_field" placeholder="Password" autocomplete="off" required>
-        </div>
-        <div class="forgot">
-            <section>
-                <input type="checkbox" id="check">
-                <label for="check">Remeber Me</label>
-            </section>
-            <a href="#forgotPassword">Forgot Password</a>
+<!-- login menu-->
+<div class="login_container">
+  <h1>Login</h1>  
+  <div class="input_box">
+      <input type="text" class=" input_field" placeholder="Email" autocomplete="off" required>
+  </div>
+  <div class="input_box">
+      <input type= "password" class=" input_field" placeholder="Password" autocomplete="off" required>
+  </div>
+  <div class="forgot">
+      <section>
+          <input type="checkbox" id="check">
+          <label for="check">Remeber Me</label>
+      </section>
+      <a href="#addModal">Forgot Password</a>
 
-        </div>
-        <div class="submit">
-            <button class="submit_button" id="submit_btn">Sign In</button>
-        </div>
-        <div class="create_account">
-            <p>Dont Have An Account?</p>
-            <a href="#signup">Sign Up</a>
-        </div>
-    </div>  
+  </div>
+  <div class="submit">
+      <button class="submit_button" id="submit_btn">Sign In</button>
+  </div>
+  <div class="create_account">
+      <p>Dont Have An Account?</p>
+      <a href="#addModal">Sign Up</a>
+  </div>
+</div>  
 
-    <!--sign up menu-->
-    <div class="signup_container" id="signupModal">
-      <div class="signup">
-        <span class="close" id="closeModal">&times;</span>
-        <h2>Sign Up</h2>
-        <div class="input_box">
-          <input type="text" class="input_field" placeholder="Name" autocomplete="off" required>
-      </div>
-        <div class="input_box">
-            <input type="text" class=" input_field" placeholder="Email" autocomplete="off" required>
-        </div>
-        <div class="input_box">
-            <input type= "password" class=" input_field" placeholder="Password" autocomplete="off" required>
-        </div>
-        <div class="input_box">
-            <input type= "password" class=" input_field" placeholder="Confirm Password" autocomplete="off" required>
-        </div>
-        <div class="submit">
-            <button class="submit_button" id="create_acc_btn">Create Account</button>
-        </div>
-      </div>
-    </div>
+<!-- Modal shared between -->
+<div class="modal" id="addModal">
+  <div class="modal-content">
+      <span class="close" id="closeAddModal">&times;</span>
+      <!-- contents in main.js just need the containers -->
+  </div>
+</div>
 
-    <!-- Forgot Password Modal -->
-    <div class="forgotpassword_container" id="forgotPasswordModal">
-      <div class="forgotpassword">
-        <span class="close" id="closeForgotPassword">&times;</span>
-        <h2>Forgot Password</h2>
-        <div class="input_box">
-          <input type="text" class=" input_field" placeholder="Email" autocomplete="off" required>
-        </div>
-        <div class="submit">
-          <button class="submit_button" id="send_email_btn">Send Email</button>
-        </div>
-        <!-- Your forgot password form or content goes here -->
-      </div>
-    </div>
-
-  <script type="module" src="/scripts/main.js"></script>
-  <script src="/scripts/script.js"></script>
+<script type="module" src="./scripts/main.js"></script>
+<script src="./scripts/script.js"></script>
 </body>
 </html>

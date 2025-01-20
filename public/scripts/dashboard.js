@@ -254,7 +254,6 @@ async function deleteAccount(accountId) {
     await loadUserAccounts();
 }
 
-
 /* 
 other functions we need
 */
@@ -403,7 +402,7 @@ function changeModalToAccountForm(accountType) {
 }
 
 /*
-this section is for opening account settings
+this section is for account settings
 */ 
 
 // Event listener for gear buttons opens a modal
