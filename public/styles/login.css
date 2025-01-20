@@ -118,31 +118,6 @@ body{
     cursor: pointer;
 }
 
-/* Signup content styles */
-.signup {
-    background-color: #fff;
-    position: absolute; /* Start off-screen */
-    bottom: -100%; /* Ensure it's fully off-screen initially */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    padding: 20px;
-    border-radius: 10px;
-    width: 30vw; /* Adjust width as needed */
-    text-align: center;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-    transition: transform 0.5s ease, bottom 0.5s ease; /* Smooth animation */
-}
-
-/* Open animation: Bring modal content up */
-.signup.open {
-    bottom: 5vw; /* Final position above the bottom */
-
-    .submit{
-      margin-top: 10%;
-      margin-bottom: 10%;  
-    }
-
-}
 
 /* Optional fade-in background */
 @keyframes fadeIn {
@@ -153,62 +128,6 @@ body{
         background-color: rgba(0, 0, 0, 0.5);
     }
 }
-
-/* Close button styles */
-.close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-
-/* Forgot Password container styles */
-.forgotpassword_container {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 10; /* Ensures it is above other elements */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Prevent scrolling while modal is active */
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-    animation: fadeIn 0.3s ease; /* Optional fade-in effect */
-}
-
-.forgotpassword {
-    background-color: #fff;
-    position: absolute; /* Start off-screen */
-    bottom: -100%; /* Ensure it's fully off-screen initially */
-    left: 50%;
-    transform: translateX(-50%); /* Center horizontally */
-    padding: 20px;
-    border-radius: 10px;
-    display: flex; /* Enable flexbox */
-    flex-direction: column; /* Stack elements vertically */
-    gap: 2vw; /* Adds space between the elements */
-    width: 30vw; /* Adjust width as    gap: 4vw; /* Adds space between the elements */
-    text-align: center;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
-    transition: transform 0.5s ease, bottom 0.5s ease; /* Smooth animation */
-}
-
-/* Open animation: Bring modal content up */
-.forgotpassword.open {
-    bottom: 20vw; /* Final position above the bottom */
-}
-
-/* Close button styles */
-.close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
 
 #send_email_btn {
     border-radius: 5px;

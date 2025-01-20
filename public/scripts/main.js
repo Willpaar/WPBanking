@@ -1,104 +1,3 @@
-/*
-makes buttons go back to normal size when clicked
-*/
-// Get both buttons by their unique IDs
-const submitBtnLogin = document.getElementById('submit_btn');
-const submitBtnSignup = document.getElementById('create_acc_btn');
-
-// Function to shrink the button when clicked
-function shrinkButton(button) {
-    button.style.width = '20vw';
-    button.style.height = '3vw';
-}
-
-// Function to restore the button size after release
-function restoreButtonSize(button) {
-    setTimeout(() => {
-        button.style.width = '';
-        button.style.height = '';
-    }, 300); // Delay to make the transition visible
-}
-
-// Add event listeners to both buttons
-submitBtnLogin.addEventListener('mousedown', function () {
-    shrinkButton(submitBtnLogin);
-});
-
-submitBtnLogin.addEventListener('mouseup', function () {
-    restoreButtonSize(submitBtnLogin);
-});
-
-submitBtnSignup.addEventListener('mousedown', function () {
-    shrinkButton(submitBtnSignup);
-});
-
-submitBtnSignup.addEventListener('mouseup', function () {
-    restoreButtonSize(submitBtnSignup);
-});
-
-
-/*
-open sign up menu
-*/
-// Get the signup container and relevant elements
-const signupContainer = document.getElementById('signupModal');
-const signupContent = signupContainer.querySelector('.signup');
-const signupLink = document.querySelector('.create_account a');
-const closeSignup = document.getElementById('closeModal');
-
-// Show the signup container when "Sign Up" is clicked
-signupLink.addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent default link behavior
-    signupContainer.style.display = 'block';
-    setTimeout(() => {
-        signupContent.classList.add('open'); // Trigger the slide-up animation
-    }, 10); // Delay to ensure animation starts
-});
-
-// Hide the signup container when the close button is clicked
-closeSignup.addEventListener('click', () => {
-    signupContent.classList.remove('open'); // Slide content back down
-    setTimeout(() => {
-        signupContainer.style.display = 'none';
-    }, 500); // Wait for animation to complete
-});
-
-// Optional: Hide the signup container if the user clicks outside the signup content
-signupContainer.addEventListener('click', (event) => {
-    if (event.target === signupContainer) {
-        signupContent.classList.remove('open'); // Slide content back down
-        setTimeout(() => {
-            signupContainer.style.display = 'none';
-        }, 500); // Wait for animation to complete
-    }
-});
-
-
-/*
-pop up for forgot password
- */
-// Forgot Password Modal Toggle
-const forgotPasswordModal = document.getElementById('forgotPasswordModal');
-const forgotPasswordLink = document.querySelector('.forgot a'); // Your "Forgot Password" link
-const closeForgotPassword = document.getElementById('closeForgotPassword');
-
-// Open Forgot Password Modal
-forgotPasswordLink.addEventListener('click', () => {
-    forgotPasswordModal.style.display = 'flex';
-    setTimeout(() => {
-        document.querySelector('.forgotpassword').classList.add('open');
-    }, 10); // Delay to allow smooth animation
-});
-
-// Close Forgot Password Modal
-closeForgotPassword.addEventListener('click', () => {
-    document.querySelector('.forgotpassword').classList.remove('open');
-    setTimeout(() => {
-        forgotPasswordModal.style.display = 'none';
-    }, 500); // Delay to match animation duration
-});
-
-
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 //connect to supabse
@@ -107,73 +6,178 @@ const supabaseUrl = 'https://bgrisydercrhmvtihfhi.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJncmlzeWRlcmNyaG12dGloZmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ3NjA5MTMsImV4cCI6MjA1MDMzNjkxM30.ElC0GaMouwQ96uhzZeeRpb8wo5H0X8R8tYzb4QLjY8s';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-//sign up function
-document.getElementById('create_acc_btn').addEventListener('click', async () => {
-    const name = document.querySelector('.signup_container input[placeholder="Name"]').value;  // Get the name
-    const email = document.querySelector('.signup_container input[placeholder="Email"]').value;
-    const password = document.querySelector('.signup_container input[placeholder="Password"]').value;
-    const confirmPassword = document.querySelector('.signup_container input[placeholder="Confirm Password"]').value;
+/**
+other functions we need
+ */
+//reattatch the close button
+function attachCloseModal() {
+    document.getElementById('closeAddModal').addEventListener('click', () => {
+        document.querySelector('.modal-content').classList.remove('open');
+        setTimeout(() => {
+            addModal.style.display = 'none';
+        }, 500);
+    });
+}
 
-    if (!name) {
-        alert('Please give display name');
-        return;
-    }
 
-    if (password !== confirmPassword) {
-        alert('Passwords do not match!');
-        return;
-    }
+/*
+functions to show signup and forgot modal
+*/
+// Open Add Account Modal
+const addModal = document.getElementById('addModal');
+const opencreateModal = document.querySelectorAll('.create_account a');
+const openforgotModal = document.querySelectorAll('.forgot a');
 
-    try {
-        // Check if email already exists
-        const { data: emailExists, error: checkError } = await supabase.rpc('check_email_exists', { email_input: email });
+// Function to handle opening the modal
+const openModal = (event) => {
+    event.preventDefault(); // Prevent default link behavior
+    addModal.style.display = 'flex'; // Open modal with flex display
 
-        if (checkError) {
-            console.error('Error checking email:', checkError);
-            alert('An error occurred while checking for the email. Please try again later.');
-            return;
-        }
+    // Smooth animation for modal
+    setTimeout(() => {
+        document.querySelector('.modal-content').classList.add('open');
+    }, 10); // Delay to allow smooth animation
+};
 
-        if (emailExists) {
-            alert('This email is already registered. Please log in.');
-            return;
-        }
-
-        // Sign up the user
-        const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
-
-        if (authError) {
-            alert('Error signing up: ' + authError.message);
-            console.error('Error signing up:', authError);
-            return;
-        }
-
-        console.log('Signup successful, user data:', authData);
-
-        // Update the name in the `userdata` table
-        const { data: updatedUserData, error: updateError } = await supabase
-            .from('userdata')
-            .update({ name: name })
-            .eq('userid', authData.user.id);
-
-        if (updateError) {
-            console.error('Error updating userdata:', updateError);
-            alert('An error occurred while updating your name. Please try again later.');
-            return;
-        }
-
-        alert('Signup successful! Please check your email to verify your account.');
-
-    } catch (err) {
-        console.error('Unexpected error:', err.message);
-        alert('Unexpected error occurred. Please try again later.');
-    }
+// Event listener for opening the addModal (create account)
+opencreateModal.forEach(link => {
+    link.addEventListener('click', (event) => {
+        openModal(event); // Open the modal
+        changeModalSignUp(); // Change the modal content to sign-up form
+    });
 });
 
+// Event listener for opening the addModal (forgot account)
+openforgotModal.forEach(link => {
+    link.addEventListener('click', (event) => {
+        openModal(event); // Open the modal
+        changeModalToForgot(); // Change the modal content to forgot password form
+    });
+});
 
-// Forgot password email send
+// Function to reset modal content to sign-up form
+async function changeModalSignUp() {
+    const modalContent = document.querySelector('.modal-content');
+
+    // Set the modal content to the sign-up menu
+    const originalMenuHTML = `
+        <span class="close" id="closeAddModal">&times;</span>
+        <h2>Sign Up</h2>
+        <div class="input_box">
+            <input type="text" class="input_field" placeholder="Name" autocomplete="off" required>
+        </div>
+        <div class="input_box">
+            <input type="text" class="input_field" placeholder="Email" autocomplete="off" required>
+        </div>
+        <div class="input_box">
+            <input type="password" class="input_field" placeholder="Password" autocomplete="off" required>
+        </div>
+        <div class="input_box">
+            <input type="password" class="input_field" placeholder="Confirm Password" autocomplete="off" required>
+        </div>
+        <div class="submit">
+            <button class="submit_button" id="create_acc_btn">Create Account</button>
+        </div>
+    `;
+    modalContent.innerHTML = originalMenuHTML;
+
+    // Attach event listener for closing the modal
+    attachCloseModal();
+
+    //sign up function
+    document.getElementById('create_acc_btn').addEventListener('click', async () => {
+        const name = document.querySelector('.modal-content input[placeholder="Name"]').value;
+        const email = document.querySelector('.modal-content input[placeholder="Email"]').value;
+        const password = document.querySelector('.modal-content input[placeholder="Password"]').value;
+        const confirmPassword = document.querySelector('.modal-content input[placeholder="Confirm Password"]').value;
+        
+        if (!name) {
+            alert('Please give display name');
+            return;
+        }
+
+        if(!email){
+            alert('Pleae enter an email');
+            return;
+        }
+
+        if(!password){
+            alert('Pleae enter a password');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            return;
+        }
+
+        try {
+            // Check if email already exists
+            const { data: emailExists, error: checkError } = await supabase.rpc('check_email_exists', { email_input: email });
+
+            if (checkError) {
+                console.error('Error checking email:', checkError);
+                alert('An error occurred while checking for the email. Please try again later.');
+                return;
+            }
+
+            if (emailExists) {
+                alert('This email is already registered. Please log in.');
+                return;
+            }
+
+            // Sign up the user
+            const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
+
+            if (authError) {
+                alert('Error signing up: ' + authError.message);
+                console.error('Error signing up:', authError);
+                return;
+            }
+
+            console.log('Signup successful, user data:', authData);
+
+            // Update the name in the `userdata` table
+            const { data: updatedUserData, error: updateError } = await supabase
+                .from('userdata')
+                .update({ name: name })
+                .eq('userid', authData.user.id);
+
+            if (updateError) {
+                console.error('Error updating userdata:', updateError);
+                alert('An error occurred while updating your name. Please try again later.');
+                return;
+            }
+
+            alert('Signup successful! Please check your email to verify your account.');
+
+        } catch (err) {
+            console.error('Unexpected error:', err.message);
+            alert('Unexpected error occurred. Please try again later.');
+        }
+    });
+    }
+
+// Function to reset modal content to forgot password form
+async function changeModalToForgot() {
+    const modalContent = document.querySelector('.modal-content');
+
+    // Set the modal content to the forgot password menu
+    const originalMenuHTML = `
+        <span class="close" id="closeAddModal">&times;</span>
+        <h2>Forgot Password</h2>
+        <div class="input_box">
+            <input type="text" class="input_field" placeholder="Email" autocomplete="off" required>
+        </div>
+        <div class="submit">
+            <button class="submit_button" id="send_email_btn">Send Email</button>
+        </div>
+    `;
+    modalContent.innerHTML = originalMenuHTML;
+
+    // Forgot password email send
 document.getElementById('send_email_btn').addEventListener('click', async () => {
-    const email = document.querySelector('.forgotpassword_container input[placeholder="Email"]').value;
+    const email = document.querySelector('.modal-content input[placeholder="Email"]').value;
 
     try {
         // Check if email exists in the database
@@ -207,6 +211,12 @@ document.getElementById('send_email_btn').addEventListener('click', async () => 
     }
 });
 
+
+    // Attach event listener for closing the modal
+    attachCloseModal();
+}
+
+
 // Sign in function
 document.getElementById('submit_btn').addEventListener('click', async (event) => {
     event.preventDefault();  // Prevents the default form submission behavior
@@ -235,12 +245,7 @@ document.getElementById('submit_btn').addEventListener('click', async (event) =>
 
         console.log('Sign in successful, user data:', data);
 
-        // If 'Remember Me' is checked, the session is automatically persisted by Supabase
-        // No need to manually call setAuth() here.
-
-        // Redirect to the dashboard after successful login
-        window.location.href = '/dashboard'; // Adjust the URL as needed
-
+        window.location.href = `/dashboard`;
     } catch (err) {
         console.error('Unexpected error:', err.message);
         alert('Unexpected error occurred. Please try again later.');
