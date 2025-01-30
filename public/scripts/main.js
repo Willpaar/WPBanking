@@ -19,6 +19,12 @@ function attachCloseModal() {
     });
 }
 
+function capitalizeFirstLetter(string) {
+    return string
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
+}
 
 /*
 functions to show signup and forgot modal
@@ -63,17 +69,17 @@ async function changeModalSignUp() {
     const originalMenuHTML = `
         <span class="close" id="closeAddModal">&times;</span>
         <h2>Sign Up</h2>
-        <div class="input_box">
-            <input type="text" class="input_field" placeholder="Name" autocomplete="off" required>
+        <div class="input_box_cont">
+            <input type="text" class="input_box" placeholder="Name" autocomplete="off" required>
         </div>
-        <div class="input_box">
-            <input type="text" class="input_field" placeholder="Email" autocomplete="off" required>
+        <div class="input_box_cont">
+            <input type="text" class="input_box" placeholder="Email" autocomplete="off" required>
         </div>
-        <div class="input_box">
-            <input type="password" class="input_field" placeholder="Password" autocomplete="off" required>
+        <div class="input_box_cont">
+            <input type="password" class="input_box" placeholder="Password" autocomplete="off" required>
         </div>
-        <div class="input_box">
-            <input type="password" class="input_field" placeholder="Confirm Password" autocomplete="off" required>
+        <div class="input_box_cont">
+            <input type="password" class="input_box" placeholder="Confirm Password" autocomplete="off" required>
         </div>
         <div class="submit">
             <button class="submit_button" id="create_acc_btn">Create Account</button>
@@ -110,6 +116,8 @@ async function changeModalSignUp() {
             alert('Passwords do not match!');
             return;
         }
+
+        name = capitalizeFirstLetter(name);
 
         try {
             // Check if email already exists
@@ -166,8 +174,8 @@ async function changeModalToForgot() {
     const originalMenuHTML = `
         <span class="close" id="closeAddModal">&times;</span>
         <h2>Forgot Password</h2>
-        <div class="input_box">
-            <input type="text" class="input_field" placeholder="Email" autocomplete="off" required>
+        <div class="input_box_cont">
+            <input type="text" class="input_box" placeholder="Email" autocomplete="off" required>
         </div>
         <div class="submit">
             <button class="submit_button" id="send_email_btn">Send Email</button>
@@ -251,5 +259,3 @@ document.getElementById('submit_btn').addEventListener('click', async (event) =>
         alert('Unexpected error occurred. Please try again later.');
     }
 });
-
-

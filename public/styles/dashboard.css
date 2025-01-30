@@ -7,7 +7,6 @@ body, html {
 
 body {  
     background-color: #ffffff;
-    transition: .75s;
 }
 
 .top {
@@ -28,23 +27,16 @@ body {
     font-size: 3vw; /* Adjust size */
 }
 
-.add_container .add {
-    border-radius: 5px;
-    padding: 0.5vw 1vw;
-    font-size: 1vw;
-    font-family: 'Playfair Display', sans-serif;
-    background-color: #4285f4;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+#openAddModal{
+    width: 12vw;
+    height: 3vw; 
+    background-color: #3a56f5;
+    transition: 0s;
 }
 
-.add_container .add:hover {
-    background-color: #2b7cff; /* Slightly lighter background on hover */
+#openAddModal:hover{
+    background-color: #1f3ff5;
 }
-
 
 #accountName{
     height: 3vw;
@@ -53,7 +45,6 @@ body {
     border: none;
     padding-left:  5%;
     box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
-    transition: .5s;
     font-size: 1.1vw;
 }
 
@@ -74,7 +65,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 1vw;
-    width: 42vw;
+    width: 43vw;
     height: 13vw;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     background-color: #f9f9f9;
@@ -96,9 +87,9 @@ body {
 /* Gear button styles */
 .gear-btn {
     position: absolute; /* Position the gear button in the top-right corner */
-    top: 10px; /* Distance from the top of the account box */
-    right: 10px; /* Distance from the right of the account box */
-    font-size: 20px;
+    top: 1vw; /* Distance from the top of the account box */
+    right: 1vw; /* Distance from the right of the account box */
+    font-size: 1.5vw;
     cursor: pointer;
     background: none;
     border: none;
@@ -183,25 +174,58 @@ body {
     cursor: pointer;
 }
 
-.input_box_cont{
-    margin-right: 1vw;
-}
+
 
 .foreign_account_input{
     margin-right: 1vw;
 }
 
-.input_box{
-    height: 3vw;
-    width: 19vw;
-    border-radius: 5px;
-    border: none;
-    padding-left:  5%;
-    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
-    transition: .5s;
-    font-size: 1.1vw 
-}
-.input_box:focus{
-    height: 3.3vw;
-    width: 20vw;
+@media screen and (max-width: 520px) {
+    .account-box {
+        width: 100vw;
+        height: 25vw;
+        padding-left: 3vw;
+
+    }
+
+    .account-box h1{
+        font-size: 4vw;
+    }
+    
+    .account-box h3 {
+        font-size: 2vw;
+    }
+    
+    .account-box p {
+        margin: .5vw 0;
+        font-size: 4vw;
+    }
+
+    .gear-btn {
+        font-size: 4vw;
+    }
+
+    .top{
+        height: 12vw;
+    }
+
+    .name_container h1 {
+        font-size: 8vw;
+    }
+
+    .add_container .submit_but{
+        font-size: 0;
+        padding-bottom: 7vw;
+    }
+
+    .add_container .submit_but::after{
+        content: "+";
+        font-size: 5vw;
+    }
+
+    #openAddModal{
+        width: 7.5vw;
+        height: 7vw; 
+    }
+    
 }
