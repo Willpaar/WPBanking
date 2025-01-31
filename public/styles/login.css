@@ -10,6 +10,10 @@ body{
     margin-top: 5%;
 }
 
+.login_container .input_box_cont {
+    margin-top: 1vw; 
+}
+
 .login_container h1{
     font-size: 3vw;
 }
@@ -45,16 +49,6 @@ body{
     background-color: #007bff; /* Change background when checked */
 }
 
-/* Add a checkmark inside the custom checkbox */
-.forgot input[type="checkbox"]:checked + label::after {
-    content: "✔"; /* Checkmark symbol */
-    position: absolute;
-    left: 5px; /* Adjust position of the checkmark */
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px; /* Checkmark size */
-    color: white; /* Checkmark color */
-}
 
 #check:hover{
     cursor: pointer;
@@ -68,38 +62,6 @@ body{
     gap: 5vw;
     font-size: 1vw;
 }
-
-.submit {
-    display: flex;
-    flex-direction: column; /* Arrange items vertically */
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    font-size: 1vw;
-    gap: 3.3vw;
-}
-
-
-#submit_btn {
-    border-radius: 5px;
-    width: 20vw;
-    height: 3vw;
-    border-width: 1px;
-    transition: .5s;
-    font-family: 'Playfair Display', sans-serif;
-    font-size: 1.1vw;
-    background-color: #000000;
-    color: white;
-    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
-}
-
-#submit_btn:hover {
-    height: 3.5vw;
-    width: 22vw;
-    cursor: pointer;
-}
-
 
 .create_account{
     display: flex;
@@ -124,51 +86,26 @@ body{
     animation: fadeIn 0.3s ease; /* Optional fade-in effect */
 }
 
-#create_acc_btn {
-    border-radius: 5px;
-    width: 20vw;
-    height: 3vw;
-    border-width: 1px;
-    transition: .5s;
-    font-family: 'Playfair Display', sans-serif;
-    font-size: 1.1vw;
-    background-color: #000000;
-    color: white;
-    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
-}
-
-#create_acc_btn:hover {
-    height: 3.5vw;
-    width: 22vw;
-    cursor: pointer;
-}
-
-
-/* Optional fade-in background */
-@keyframes fadeIn {
-    from {
-        background-color: rgba(0, 0, 0, 0);
+@media screen and (max-width: 520px) {
+    .login_container h1{
+        font-size: 10vw;
     }
-    to {
-        background-color: rgba(0, 0, 0, 0.5);
+
+    .forgot {
+        gap: 25vw;
+        font-size: 2.5vw;
     }
-}
 
-#send_email_btn {
-    border-radius: 5px;
-    width: 20vw;
-    height: 3vw;
-    border-width: 1px;
-    transition: .5s;
-    font-family: 'Playfair Display', sans-serif;
-    font-size: 1.1vw;
-    background-color: #000000;
-    color: white;
-    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
-}
+    .create_account{
+        gap: 25vw;
+        font-size: 2.5vw;
+    }
 
-#send_email_btn:hover {
-    height: 3.5vw;
-    width: 22vw;
-    cursor: pointer;
+    .forgot label::before {
+        content: "";
+        width: 1.4vw; /* Custom checkbox size */
+        height: 1.5vw; /* Custom checkbox size */
+        margin-top: .3vw;
+        border-radius: 1px; /* Optional: Rounded corners */
+    }
 }

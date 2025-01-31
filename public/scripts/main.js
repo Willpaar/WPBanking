@@ -82,7 +82,7 @@ async function changeModalSignUp() {
             <input type="password" class="input_box" placeholder="Confirm Password" autocomplete="off" required>
         </div>
         <div class="submit">
-            <button class="submit_button" id="create_acc_btn">Create Account</button>
+            <button class="submit_but" id="create_acc_btn">Create Account</button>
         </div>
     `;
     modalContent.innerHTML = originalMenuHTML;
@@ -178,7 +178,7 @@ async function changeModalToForgot() {
             <input type="text" class="input_box" placeholder="Email" autocomplete="off" required>
         </div>
         <div class="submit">
-            <button class="submit_button" id="send_email_btn">Send Email</button>
+            <button class="submit_but" id="send_email_btn">Send Email</button>
         </div>
     `;
     modalContent.innerHTML = originalMenuHTML;

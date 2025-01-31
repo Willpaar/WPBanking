@@ -38,21 +38,6 @@ body {
     background-color: #1f3ff5;
 }
 
-#accountName{
-    height: 3vw;
-    width: 18vw;
-    border-radius: 5px;
-    border: none;
-    padding-left:  5%;
-    box-shadow: 0px 5px 10px 1px rgba(0,0,0, 0.5);
-    font-size: 1.1vw;
-}
-
-#accountName:focus {
-    height: 3.3vw;
-    width: 20vw;
-}
-
 #accounts-container {
     display: flex;
     flex-wrap: wrap;
@@ -113,32 +98,6 @@ body {
     padding: 0;
 }
 
-/* Container for the buttons */
-.delete_btns {
-    display: flex;           /* Place buttons side by side */
-    justify-content: center; /* Center the buttons */
-    gap: 4vw;               /* Space between buttons */
-}
-
-/* Style for both buttons */
-.confirmation_but {
-    border-radius: 5px;
-    width: 14vw;
-    height: 3vw;
-    border-width: 1px;
-    transition: .5s;
-    font-family: 'Playfair Display', sans-serif;
-    font-size: 1.1vw;
-    background-color: #000000;
-    color: rgb(255, 255, 255);
-    box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.5);
-}
-
-.confirmation_but:hover{
-    width: 17vw;
-    height: 3.3vw;
-}
-
 /* Optional: Different colors for Cancel and Delete */
 #Cancel {
     background-color: #d1d1d1;
@@ -150,34 +109,6 @@ body {
     background-color: #f70000;
     border-color: #aa0000;
     color: white;
-}
-
-/* Buttons inside the modal */
-.select {
-    border-radius: 5px;
-    width: 20vw;
-    height: 3vw;
-    border-width: 1px;
-    transition: .5s;
-    font-family: 'Playfair Display', sans-serif;
-    font-size: 1.1vw;
-    box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.5);
-}
-
-.select:hover {
-    cursor: pointer;
-}
-
-.select:focus {
-    height: 3.5vw;
-    width: 22vw;
-    cursor: pointer;
-}
-
-
-
-.foreign_account_input{
-    margin-right: 1vw;
 }
 
 @media screen and (max-width: 520px) {
