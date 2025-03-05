@@ -92,7 +92,7 @@ async function changeModalSignUp() {
 
     //sign up function
     document.getElementById('create_acc_btn').addEventListener('click', async () => {
-        const name = capitalizeFirstLetter(document.querySelector('.modal-content input[placeholder="Name"]').valueP);
+        let name = document.querySelector('.modal-content input[placeholder="Name"]').value;
         const email = document.querySelector('.modal-content input[placeholder="Email"]').value;
         const password = document.querySelector('.modal-content input[placeholder="Password"]').value;
         const confirmPassword = document.querySelector('.modal-content input[placeholder="Confirm Password"]').value;
